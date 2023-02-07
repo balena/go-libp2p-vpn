@@ -1,6 +1,8 @@
 package libp2pvpn
 
 import (
+	"fmt"
+
 	"github.com/songgao/water"
 )
 
@@ -42,7 +44,7 @@ func NewDevice(opts ...Option) (*Interface, error) {
 	err = setupLink(iface, cfg.LinkOptions)
 	if err != nil {
 		iface.Close()
-		return nil, err
+		return nil, fmt.Errorf("error while setting %s: %s", iface.Name(), err)
 	}
 
 	return &Interface{iface}, err

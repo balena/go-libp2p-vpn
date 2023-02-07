@@ -57,11 +57,16 @@ func setupLink(iface *water.Interface, linkOpts LinkOptions) error {
 	if linkOpts.MTU != 0 {
 		err := ifconfig(iface.Name(), "mtu", fmt.Sprintf("%d", linkOpts.MTU))
 		if err != nil {
-			return err
+			return fmt.Errorf("error setting mtu: %s", err)
 		}
 	}
 
-	return ifconfig(iface.Name(), "inet", linkOpts.LocalAddress, linkOpts.RemoteAddress, "up")
+	err := ifconfig(iface.Name(), "inet", linkOpts.LocalAddress, linkOpts.RemoteAddress, "up")
+	if err != nil {
+		return fmt.Errorf("error bringing interface up: %s", err)
+	}
+
+	return nil
 }
 
 func ifconfig(args ...string) error {

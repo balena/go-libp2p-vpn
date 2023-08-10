@@ -53,6 +53,7 @@ func MultiQueue(multiQueue bool) Option {
 // with default values.
 type LinkOptions struct {
 	LocalAddress string
+	RemoteAddress string
 	MTU          int
 }
 
@@ -60,6 +61,13 @@ type LinkOptions struct {
 func LocalAddress(address string) Option {
 	return func(cfg *Config) {
 		cfg.LocalAddress = address
+	}
+}
+
+func TunnelIP(local, remote string) Option {
+	return func(cfg *Config) {
+		cfg.LocalAddress = local
+		cfg.RemoteAddress = remote
 	}
 }
 
